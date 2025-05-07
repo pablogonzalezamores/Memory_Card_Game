@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+  
+.start-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #00963F;
+  height: 98vh;
+  gap: 2rem;
+
+  .logo {
+    max-width: 26vh;
+  }
+
+  .cards {
+    max-width: 30vh;
+  }
+
+  .start-btn {
+    background-color: #F49811;
+    border: 4px solid #000;
+    border-radius: 50px;
+    color: #cf3b10;
+    font-size: 2rem;
+    font-family: 'Luckiest Guy', sans-serif;
+    padding: 1rem 3rem;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+    text-shadow: 1px 1px 0 #000;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    &.desktop {
+      display: none;
+    }
+
+    &.mobile {
+      display: block;
+    }
+  }
+
+  .left-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  // Desktop layout
+  @media (min-width: 1000px) {
+    flex-direction: row;
+    justify-content: space-around;
+
+    .logo {
+      max-width: 300px;
+    }
+
+    .cards {
+      max-width: 400px;
+    }
+
+    .start-btn {
+      font-size: 2.5rem;
+      padding: 1.2rem 4rem;
+
+      &.desktop {
+        display: block;
+      }
+
+      &.mobile {
+        display: none;
+      }
+    }
+
+    .left-content {
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+.game-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #00963f;
+  height: 91vh;
+  padding: 2rem;
+  color: white;
+  font-family: 'Luckiest Guy', cursive;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  text-align: center;
+
+  .logo {
+    max-width: 200px;
+    width: 100%;
+  }
+
+  h2 {
+    color: #f49811;
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  .lifes {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+
+    span {
+      font-size: 2.4rem;
+
+      &.active {
+        color: #ff3b3b;
+      }
+
+      &.lost {
+        color: #444;
+      }
+    }
+  }
+
+  .reset-btn {
+    background-color: #f49811;
+    border: 4px solid #000;
+    border-radius: 50px;
+    padding: 1rem 2.5rem;
+    color: #cf3b10;
+    font-size: 1.8rem;
+    font-family: 'Luckiest Guy', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+    width: 160px;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  gap: 1.2rem;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+
+  // Móvil: 3 columnas, 4 filas
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+
+  @media (min-width: 1000px) {
+    // Escritorio: 4 columnas, 3 filas
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+  }
+}
