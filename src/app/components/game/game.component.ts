@@ -24,21 +24,24 @@ export class GameComponent implements OnInit {
   cards: Card[] = [];
   selectedCards: Card[] = [];
   vidas = 5;
+  volumen = 0.2;
+  private audio: HTMLAudioElement | null = null;
+
+  private sonidos: Record<string, string> = {
+    'Bombardiro_Crocodilo.webp': 'assets/audio/Bombardiro_Crocodilo.mp3',
+    'Boneca_ambalabu.webp': 'assets/audio/Boneca_ambalabu.mp3',
+    'Brr_Brr_Patapim.webp': 'assets/audio/Brr_Brr_Patapim.mp3',
+    'ChimpanziniBananini.webp': 'assets/audio/ChimpanziniBananini.mp3',
+    'Frulli_Frulla_HD.webp': 'assets/audio/Frulli_Frulla_HD.mp3',
+    'Tralalero_tralala.webp': 'assets/audio/Tralalero_tralala.mp3'
+  };
 
   ngOnInit() {
     this.inicializarJuego();
   }
 
   inicializarJuego() {
-    const imagenes = [
-      'assets/brainrots/Bombardiro_Crocodilo.webp',
-      'assets/brainrots/Boneca_ambalabu.webp',
-      'assets/brainrots/Brr_Brr_Patapim.webp',
-      'assets/brainrots/ChimpanziniBananini.webp',
-      'assets/brainrots/Frulli_Frulla_HD.webp',
-      'assets/brainrots/Tralalero_tralala.webp',
-    ];
-
+    const imagenes = Object.keys(this.sonidos).map(n => 'assets/brainrots/' + n);
     this.cards = [...imagenes, ...imagenes]
       .map((img, index) => ({
         id: index,
@@ -50,6 +53,7 @@ export class GameComponent implements OnInit {
 
     this.selectedCards = [];
     this.vidas = 5;
+    this.detenerAudio();
   }
 
   seleccionarCarta(carta: Card) {
@@ -68,6 +72,7 @@ export class GameComponent implements OnInit {
 
     if (c1.image === c2.image) {
       c1.matched = c2.matched = true;
+      this.reproducirSonido(c1.image);
     } else {
       c1.revealed = c2.revealed = false;
       this.vidas--;
@@ -76,33 +81,50 @@ export class GameComponent implements OnInit {
     this.selectedCards = [];
 
     if (this.vidas <= 0) {
-      this.toastr.error(
-        `<span class="toast-text-lg">😢 ¡Has perdido!</span>`,
-        '',
-        { enableHtml: true }
-      );
+      this.toastr.error('😢 ¡Has perdido!', '', { enableHtml: true });
       this.inicializarJuego();
     }
 
     if (this.cards.every(c => c.matched)) {
-      this.toastr.success(
-        `<span class="toast-text-lg">🎉 ¡Has ganado!</span>`,
-        '',
-        { enableHtml: true }
-      );
+      this.toastr.success('🎉 ¡Has ganado!', '', { enableHtml: true });
+      setTimeout(() => this.router.navigateByUrl('/end'), 1000);
+    }
+  }
 
-      setTimeout(() => {
-        this.router.navigateByUrl('/end');
-      }, 1000);
+  reproducirSonido(imageUrl: string) {
+    this.detenerAudio();
+
+    const nombre = imageUrl.split('/').pop()!;
+    const ruta = this.sonidos[nombre];
+    if (!ruta) return;
+
+    this.audio = new Audio(ruta);
+    this.audio.volume = this.volumen;
+    this.audio.play().catch(() => {});
+
+    setTimeout(() => {
+      this.detenerAudio();
+    }, 7000);
+  }
+
+  detenerAudio() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.audio = null;
+    }
+  }
+
+  onVolumeInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.volumen = parseFloat(input.value);
+    if (this.audio) {
+      this.audio.volume = this.volumen;
     }
   }
 
   reiniciarJuego() {
     this.inicializarJuego();
-    this.toastr.info(
-      `<span class="toast-text-lg">🔁 Juego reiniciado</span>`,
-      '',
-      { enableHtml: true }
-    );
+    this.toastr.info('🔁 Juego reiniciado', '', { enableHtml: true });
   }
 }
