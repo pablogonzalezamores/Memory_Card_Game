@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 interface Card {
@@ -18,6 +19,7 @@ interface Card {
 })
 export class GameComponent implements OnInit {
   private toastr = inject(ToastrService);
+  private router = inject(Router);
 
   cards: Card[] = [];
   selectedCards: Card[] = [];
@@ -88,6 +90,10 @@ export class GameComponent implements OnInit {
         '',
         { enableHtml: true }
       );
+
+      setTimeout(() => {
+        this.router.navigateByUrl('/end');
+      }, 1000);
     }
   }
 
