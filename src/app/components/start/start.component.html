@@ -1,13 +1,17 @@
 <div class="start-container">
     <div class="left-content">
-        <img class="logo" src="assets/logo.png" alt="Memory Card Logo" />
-        
-        <!-- Botón para escritorio (>=1000px) -->
-        <button class="start-btn desktop" (click)="empezar()">START</button>
+      <img class="logo" src="assets/logo.png" alt="Memory Card Logo" />
+  
+      <!-- Botón para escritorio -->
+      <button class="start-btn desktop" (click)="empezar()">START</button>
     </div>
-
-    <img class="cards" src="assets/reverse-card.png" alt="Cartas" />
-
-    <!-- Botón para móvil (<1000px) -->
+  
+    <div class="cards-wrapper">
+      <img class="card back-1" src="assets/reverse-card.png" alt="Carta" />
+      <img class="card back-2" src="assets/reverse-card.png" alt="Carta" />
+      <img class="card back-3" src="assets/reverse-card.png" alt="Carta principal" />
+    </div>
+  
+    <!-- Botón para móvil -->
     <button class="start-btn mobile" (click)="empezar()">START</button>
-</div>
+</div>  

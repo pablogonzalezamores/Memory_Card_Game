@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
-  
 .start-container {
   display: flex;
   flex-direction: column;
@@ -11,10 +10,6 @@
 
   .logo {
     max-width: 26vh;
-  }
-
-  .cards {
-    max-width: 30vh;
   }
 
   .start-btn {
@@ -50,7 +45,38 @@
     gap: 2rem;
   }
 
-  // Desktop layout
+  .cards-wrapper {
+    position: relative;
+    width: 150px;
+    height: 220px;
+
+    .card {
+      position: absolute;
+      width: 100%;
+      height: auto;
+      border-radius: 19px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s ease;
+    }
+
+    .back-1 {
+      transform: rotate(-10deg);
+      left: -15px;
+      z-index: 1;
+    }
+
+    .back-2 {
+      transform: rotate(10deg);
+      left: 15px;
+      z-index: 2;
+    }
+
+    .back-3 {
+      transform: rotate(0deg);
+      z-index: 3;
+    }
+  }
+
   @media (min-width: 1000px) {
     flex-direction: row;
     justify-content: space-around;
@@ -59,8 +85,9 @@
       max-width: 300px;
     }
 
-    .cards {
-      max-width: 400px;
+    .cards-wrapper {
+      width: 300px;
+      height: 390px;
     }
 
     .start-btn {
@@ -74,10 +101,6 @@
       &.mobile {
         display: none;
       }
-    }
-
-    .left-content {
-      justify-content: center;
     }
   }
 }
