@@ -1,6 +1,6 @@
 <div class="game-container">
   <div class="sidebar">
-    <img src="assets/logo.png" alt="Logo" class="logo" />
+    <img src="assets/logo.png" alt="Logo" class="logo" loading="eager" />
 
     <div class="lifes-container">
       <h2>LIFES</h2>
@@ -29,11 +29,13 @@
           *ngIf="card.revealed || card.matched"
           [src]="card.image"
           alt="carta"
+          loading="eager"
         />
         <img
           *ngIf="!card.revealed && !card.matched"
           src="assets/reverse-card.png"
           alt="reverso"
+          loading="eager"
         />
       </div>
     </div>

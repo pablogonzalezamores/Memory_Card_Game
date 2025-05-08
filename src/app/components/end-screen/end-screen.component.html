@@ -1,12 +1,16 @@
 <div class="end-container">
-  <img class="logo" src="assets/logo.png" alt="Memory Card Logo" />
+  <img class="logo" src="assets/logo.png" alt="Memory Card Logo" loading="eager" />
   <h1 class="title">CONGRATULATIONS!!</h1>
   <p class="subtitle">Select to play sound</p>
 
   <div class="characters-grid">
-    <div class="character" *ngFor="let character of characters" (click)="playAudio(character.audio)">
-        <img [src]="character.image" [alt]="character.name" />
-        <span class="name">{{ character.name }}</span>
+    <div
+      class="character"
+      *ngFor="let character of characters"
+      (click)="playAudio(character.audio)"
+    >
+      <img [src]="character.image" [alt]="character.name" loading="eager" />
+      <span class="name">{{ character.name }}</span>
     </div>
   </div>
 
