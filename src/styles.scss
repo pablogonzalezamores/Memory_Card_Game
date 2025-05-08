@@ -3,3 +3,39 @@ html, body {
     padding: 0;
     box-sizing: border-box;
 }
+
+@import 'ngx-toastr/toastr';
+
+.toast {
+  border-radius: 12px !important;
+  font-family: 'Luckiest Guy', cursive !important;
+  font-size: 3rem !important; 
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  padding: 2rem 1.5rem !important;
+}
+
+.toast-success {
+  background-color: #4caf50 !important;
+}
+.toast-error {
+  background-color: #f44336 !important;
+}
+.toast-info {
+  background-color: #2196f3 !important;
+}
+
+.custom-toast {
+    font-size: 1.6rem !important;
+    padding: 1.2rem 2rem !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+    background-color: #333 !important;
+    color: #fff !important;
+  }
+  
+
+  .toast-text-lg {
+    font-size: 1.6rem;
+    line-height: 1.4;
+  }
+  

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 interface Card {
   id: number;
@@ -16,6 +17,8 @@ interface Card {
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
+  private toastr = inject(ToastrService);
+
   cards: Card[] = [];
   selectedCards: Card[] = [];
   vidas = 5;
@@ -71,16 +74,29 @@ export class GameComponent implements OnInit {
     this.selectedCards = [];
 
     if (this.vidas <= 0) {
-      alert('¡Has perdido!');
+      this.toastr.error(
+        `<span class="toast-text-lg">😢 ¡Has perdido!</span>`,
+        '',
+        { enableHtml: true }
+      );
       this.inicializarJuego();
     }
 
     if (this.cards.every(c => c.matched)) {
-      alert('¡Felicidades, ganaste!');
+      this.toastr.success(
+        `<span class="toast-text-lg">🎉 ¡Has ganado!</span>`,
+        '',
+        { enableHtml: true }
+      );
     }
   }
 
   reiniciarJuego() {
     this.inicializarJuego();
+    this.toastr.info(
+      `<span class="toast-text-lg">🔁 Juego reiniciado</span>`,
+      '',
+      { enableHtml: true }
+    );
   }
 }
