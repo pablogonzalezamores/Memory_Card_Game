@@ -85,6 +85,6 @@ export class EndScreenComponent {
       audio.currentTime = 0;
     });
     this.currentAudios = {};
-    this.router.navigateByUrl('/game');
+    this.router.navigateByUrl('/');
   }
 }
