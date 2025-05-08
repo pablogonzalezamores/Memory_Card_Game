@@ -1,20 +1,23 @@
 <div class="game-container">
-    <div class="sidebar">
-      <img src="assets/logo.png" alt="Logo" class="logo" />
-  
-      <div class="lifes-container">
-        <h2>LIFES</h2>
-        <div class="lifes">
-          <span *ngFor="let i of [].constructor(5); let idx = index"
-                [ngClass]="{ 'active': idx < vidas, 'lost': idx >= vidas }">
-            ♥
-          </span>
-        </div>
+  <div class="sidebar">
+    <img src="assets/logo.png" alt="Logo" class="logo" />
+
+    <div class="lifes-container">
+      <h2>LIFES</h2>
+      <div class="lifes">
+        <span
+          *ngFor="let i of [].constructor(5); let idx = index"
+          [ngClass]="{ 'active': idx < vidas, 'lost': idx >= vidas }"
+        >
+          ♥
+        </span>
       </div>
-  
-      <button class="reset-btn" (click)="reiniciarJuego()">RESET</button>
     </div>
-  
+
+    <button class="reset-btn" (click)="reiniciarJuego()">RESET</button>
+  </div>
+
+  <div class="grid-wrapper">
     <div class="grid">
       <div
         class="card"
@@ -34,4 +37,5 @@
         />
       </div>
     </div>
-</div>  
+  </div>
+</div>
