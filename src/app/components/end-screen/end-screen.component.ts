@@ -1,4 +1,4 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { RouterModule, Router } from '@angular/router';
   templateUrl: './end-screen.component.html',
   styleUrls: ['./end-screen.component.scss']
 })
-export class EndScreenComponent {
+export class EndScreenComponent implements OnInit {
   characters = [
     {
       name: 'TRALALERO TRALALA',
@@ -46,9 +46,18 @@ export class EndScreenComponent {
   volumen = 0.2;
   private isBrowser: boolean;
   private currentAudios: Record<string, HTMLAudioElement> = {};
+  private ignasioAudio: HTMLAudioElement | null = null;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  ngOnInit(): void {
+    if (this.isBrowser) {
+      this.ignasioAudio = new Audio('assets/audio/ignasio.mp3');
+      this.ignasioAudio.volume = this.volumen;
+      this.ignasioAudio.play().catch(() => {});
+    }
   }
 
   playAudio(url: string) {
@@ -73,18 +82,30 @@ export class EndScreenComponent {
     const input = event.target as HTMLInputElement;
     const value = parseFloat(input.value);
     this.volumen = value;
+
     Object.values(this.currentAudios).forEach(audio => {
       audio.volume = value;
     });
+
+    if (this.ignasioAudio) {
+      this.ignasioAudio.volume = value;
+    }
   }
 
   reset() {
     if (!this.isBrowser) return;
+
     Object.values(this.currentAudios).forEach(audio => {
       audio.pause();
       audio.currentTime = 0;
     });
     this.currentAudios = {};
+
+    if (this.ignasioAudio) {
+      this.ignasioAudio.pause();
+      this.ignasioAudio.currentTime = 0;
+    }
+
     this.router.navigateByUrl('/');
   }
 }
