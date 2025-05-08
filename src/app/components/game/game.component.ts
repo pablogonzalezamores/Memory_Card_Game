@@ -1,5 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -18,14 +18,13 @@ interface Card {
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  private toastr = inject(ToastrService);
-  private router = inject(Router);
-
   cards: Card[] = [];
   selectedCards: Card[] = [];
   vidas = 5;
   volumen = 0.2;
   private audio: HTMLAudioElement | null = null;
+  private audioError: HTMLAudioElement | null = null;
+  private isBrowser: boolean;
 
   private sonidos: Record<string, string> = {
     'Bombardiro_Crocodilo.webp': 'assets/audio/Bombardiro_Crocodilo.mp3',
@@ -35,6 +34,18 @@ export class GameComponent implements OnInit {
     'Frulli_Frulla_HD.webp': 'assets/audio/Frulli_Frulla_HD.mp3',
     'Tralalero_tralala.webp': 'assets/audio/Tralalero_tralala.mp3'
   };
+
+  constructor(
+    private toastr: ToastrService,
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+    if (this.isBrowser) {
+      this.audioError = new Audio('assets/audio/la-polizia-noooooo.mp3');
+      this.audioError.volume = this.volumen;
+    }
+  }
 
   ngOnInit() {
     this.inicializarJuego();
@@ -76,6 +87,16 @@ export class GameComponent implements OnInit {
     } else {
       c1.revealed = c2.revealed = false;
       this.vidas--;
+
+      if (this.isBrowser && this.audioError) {
+        this.audioError.pause();
+        this.audioError.currentTime = 0;
+        this.audioError.volume = this.volumen;
+        this.audioError.play().catch(() => {});
+        setTimeout(() => {
+          this.audioError?.pause();
+        }, 5000);
+      }
     }
 
     this.selectedCards = [];
@@ -92,6 +113,8 @@ export class GameComponent implements OnInit {
   }
 
   reproducirSonido(imageUrl: string) {
+    if (!this.isBrowser) return;
+
     this.detenerAudio();
 
     const nombre = imageUrl.split('/').pop()!;
@@ -104,7 +127,7 @@ export class GameComponent implements OnInit {
 
     setTimeout(() => {
       this.detenerAudio();
-    }, 7000);
+    }, 5000);
   }
 
   detenerAudio() {
@@ -116,11 +139,13 @@ export class GameComponent implements OnInit {
   }
 
   onVolumeInput(event: Event) {
+    if (!this.isBrowser) return;
     const input = event.target as HTMLInputElement;
-    this.volumen = parseFloat(input.value);
-    if (this.audio) {
-      this.audio.volume = this.volumen;
-    }
+    const nuevoVolumen = parseFloat(input.value);
+    this.volumen = nuevoVolumen;
+
+    if (this.audio) this.audio.volume = nuevoVolumen;
+    if (this.audioError) this.audioError.volume = nuevoVolumen;
   }
 
   reiniciarJuego() {

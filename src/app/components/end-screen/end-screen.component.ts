@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
@@ -43,34 +43,48 @@ export class EndScreenComponent {
     }
   ];
 
-  private audiosMap: Record<string, HTMLAudioElement> = {};
+  volumen = 0.2;
+  private isBrowser: boolean;
+  private currentAudios: Record<string, HTMLAudioElement> = {};
 
-  constructor(private router: Router) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   playAudio(url: string) {
-    const current = this.audiosMap[url];
+    if (!this.isBrowser) return;
 
-    if (current && !current.paused) {
-      current.pause();
-      current.currentTime = 0;
-      delete this.audiosMap[url];
+    const existing = this.currentAudios[url];
+
+    if (existing && !existing.paused) {
+      existing.pause();
+      existing.currentTime = 0;
+      delete this.currentAudios[url];
     } else {
-      const newAudio = new Audio(url);
-      newAudio.play();
-      this.audiosMap[url] = newAudio;
+      const audio = new Audio(url);
+      audio.volume = this.volumen;
+      audio.play().catch(() => {});
+      this.currentAudios[url] = audio;
     }
   }
 
-  stopAllAudio() {
-    for (const audio of Object.values(this.audiosMap)) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-    this.audiosMap = {};
+  onVolumeInput(event: Event) {
+    if (!this.isBrowser) return;
+    const input = event.target as HTMLInputElement;
+    const value = parseFloat(input.value);
+    this.volumen = value;
+    Object.values(this.currentAudios).forEach(audio => {
+      audio.volume = value;
+    });
   }
 
   reset() {
-    this.stopAllAudio();
-    this.router.navigate(['/']);
+    if (!this.isBrowser) return;
+    Object.values(this.currentAudios).forEach(audio => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+    this.currentAudios = {};
+    this.router.navigateByUrl('/game');
   }
 }
