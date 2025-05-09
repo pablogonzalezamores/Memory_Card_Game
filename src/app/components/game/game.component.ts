@@ -23,6 +23,7 @@ export class GameComponent implements OnInit {
   selectedCards: Card[] = [];
   vidas = 5;
   volumen = 0.2;
+  private volumenAnterior = 0.2;
   private audio: HTMLAudioElement | null = null;
   private audioError: HTMLAudioElement | null = null;
   private isBrowser: boolean;
@@ -146,10 +147,28 @@ export class GameComponent implements OnInit {
     if (!this.isBrowser) return;
     const input = event.target as HTMLInputElement;
     const nuevoVolumen = parseFloat(input.value);
+
     this.volumen = nuevoVolumen;
+    if (nuevoVolumen > 0) {
+      this.volumenAnterior = nuevoVolumen;
+    }
 
     if (this.audio) this.audio.volume = nuevoVolumen;
     if (this.audioError) this.audioError.volume = nuevoVolumen;
+  }
+
+  toggleMute() {
+    if (!this.isBrowser) return;
+
+    if (this.volumen === 0) {
+      this.volumen = this.volumenAnterior || 0.5;
+    } else {
+      this.volumenAnterior = this.volumen;
+      this.volumen = 0;
+    }
+
+    if (this.audio) this.audio.volume = this.volumen;
+    if (this.audioError) this.audioError.volume = this.volumen;
   }
 
   reiniciarJuego() {

@@ -3,8 +3,18 @@
   <h1 class="title">CONGRATULATIONS!!</h1>
   <p class="subtitle">Select to play sound</p>
 
-  <label class="volume-control">
-    {{ volumen === 0 ? '🔇' : '🔊' }}
+  <div class="volume-control">
+    <i
+      class="fas"
+      [ngClass]="{
+        'fa-volume-mute': volumen === 0,
+        'fa-volume-up': volumen > 0.5,
+        'fa-volume-down': volumen > 0 && volumen <= 0.5
+      }"
+      (click)="toggleMute()"
+      style="cursor: pointer;"
+    ></i>
+
     <input
       type="range"
       min="0"
@@ -13,20 +23,16 @@
       [value]="volumen"
       (input)="onVolumeInput($event)"
     />
-  </label>
+  </div>
 
   <button class="stop-btn" (click)="stopAll()">⏹️ Stop All</button>
 
   <div class="characters-grid">
-    <div
-      class="character"
-      *ngFor="let character of characters"
-      (click)="playAudio(character.audio)"
-    >
+    <div class="character" *ngFor="let character of characters" (click)="playAudio(character.audio)">
       <img [src]="character.image" [alt]="character.name" loading="eager" />
       <span class="name">{{ character.name }}</span>
     </div>
   </div>
-  
+
   <button class="reset-btn" (click)="reset()">RESET</button>
 </div>

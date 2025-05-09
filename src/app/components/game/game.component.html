@@ -14,8 +14,18 @@
       </div>
     </div>
 
-    <label class="volume-control">
-      {{ volumen === 0 ? '🔇' : '🔊' }}
+    <div class="volume-control">
+      <i
+        class="fas"
+        [ngClass]="{
+          'fa-volume-mute': volumen === 0,
+          'fa-volume-up': volumen > 0.5,
+          'fa-volume-down': volumen > 0 && volumen <= 0.5
+        }"
+        (click)="toggleMute()"
+        style="cursor: pointer;"
+      ></i>
+    
       <input
         type="range"
         min="0"
@@ -24,7 +34,8 @@
         [value]="volumen"
         (input)="onVolumeInput($event)"
       />
-    </label>    
+    </div>
+       
 
     <button class="reset-btn" (click)="reiniciarJuego()">RESET</button>
   </div>
