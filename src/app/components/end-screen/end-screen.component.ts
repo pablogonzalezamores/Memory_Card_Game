@@ -77,6 +77,16 @@ export class EndScreenComponent implements OnInit {
     }
   }
 
+  stopAll() {
+    if (!this.isBrowser) return;
+    Object.values(this.currentAudios).forEach(audio => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+    this.currentAudios = {};
+  }
+  
+
   onVolumeInput(event: Event) {
     if (!this.isBrowser) return;
     const input = event.target as HTMLInputElement;
