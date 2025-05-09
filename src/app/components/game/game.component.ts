@@ -22,7 +22,7 @@ export class GameComponent implements OnInit {
   cards: Card[] = [];
   selectedCards: Card[] = [];
   vidas = 5;
-  volumen = 0.2;
+  volumen = 0.05;
   private volumenAnterior = 0.2;
   private audio: HTMLAudioElement | null = null;
   private audioError: HTMLAudioElement | null = null;

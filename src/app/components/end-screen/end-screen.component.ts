@@ -19,8 +19,8 @@ export class EndScreenComponent implements OnInit {
     { name: 'BRR BRR PATAPÍN', image: 'assets/brainrots/Brr_Brr_Patapim.webp', audio: 'assets/audio/Brr_Brr_Patapim.mp3' }
   ];
 
-  volumen = 0.2;
-  private volumenAnterior = 0.2;
+  volumen = 0.05;
+  private volumenAnterior = 0.05;
   private isBrowser: boolean;
   private currentAudios: Record<string, HTMLAudioElement> = {};
   private ignasioAudio: HTMLAudioElement | null = null;

@@ -48,19 +48,16 @@
         [ngClass]="{ 'flipped': card.revealed || card.matched }"
         (click)="seleccionarCarta(card)"
       >
-        <img
-          *ngIf="card.revealed || card.matched"
-          [src]="card.image"
-          alt="carta"
-          loading="eager"
-        />
-        <img
-          *ngIf="!card.revealed && !card.matched"
-          src="assets/reverse-card-4x4.png"
-          alt="reverso"
-          loading="eager"
-        />
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="assets/reverse-card-4x4.png" alt="reverso" loading="eager" />
+          </div>
+    
+          <div class="flip-card-back">
+            <img [src]="card.image" alt="carta" loading="eager" />
+          </div>
+        </div>
       </div>
-    </div>
+    </div>    
   </div>
 </div>
