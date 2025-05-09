@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { GameStateService } from '../../services/game-state.service';
 
 interface Card {
   id: number;
@@ -38,6 +39,7 @@ export class GameComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private router: Router,
+    private gameState: GameStateService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -64,6 +66,7 @@ export class GameComponent implements OnInit {
 
     this.selectedCards = [];
     this.vidas = 5;
+    this.gameState.resetearEstado();
     this.detenerAudio();
   }
 
@@ -107,6 +110,7 @@ export class GameComponent implements OnInit {
     }
 
     if (this.cards.every(c => c.matched)) {
+      this.gameState.marcarVictoria();
       this.toastr.success('🎉 ¡Has ganado!', '', { enableHtml: true });
       setTimeout(() => this.router.navigateByUrl('/end'), 1000);
     }
