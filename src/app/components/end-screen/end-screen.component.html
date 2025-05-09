@@ -25,7 +25,9 @@
     />
   </div>
 
-  <button class="stop-btn" (click)="stopAll()">⏹️ Stop All</button>
+  <button class="stop-btn" (click)="stopAll()">
+    <i class="fas fa-stop-circle"></i> Stop All
+  </button>
 
   <div class="characters-grid">
     <div class="character" *ngFor="let character of characters" (click)="playAudio(character.audio)">
