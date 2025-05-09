@@ -8,7 +8,7 @@ import { endGuard } from './guards/end.guard';
 
 export const routes: Routes = [
   { path: '', component: StartComponent }, 
-  { path: 'game', component: GameComponent },
-  { path: 'end', component: EndScreenComponent, canActivate: [endGuard] },
-  { path: '**', component: NotFoundComponent }
+  { path: 'game', component: GameComponent, title: 'Game' },
+  { path: 'end', component: EndScreenComponent, canActivate: [endGuard], title: 'End' },
+  { path: '**', component: NotFoundComponent, title: '404 Not Found' }
 ];
