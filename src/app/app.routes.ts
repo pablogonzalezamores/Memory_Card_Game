@@ -7,8 +7,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { endGuard } from './guards/end.guard';
 
 export const routes: Routes = [
-  { path: '', component: StartComponent, title: 'Memory Brainrot - Main' }, 
-  { path: 'game', component: GameComponent, title: 'Memory Brainrot - Game' },
-  { path: 'end', component: EndScreenComponent, canActivate: [endGuard], title: 'Memory Brainrot - End' },
-  { path: '**', component: NotFoundComponent, title: 'Memory Brainrot - 404 Not Found' }
+  { path: '', component: StartComponent, title: 'Main - Memory Brainrot' }, 
+  { path: 'game', component: GameComponent, title: 'Game - Memory Brainrot' },
+  { path: 'end', component: EndScreenComponent, canActivate: [endGuard], title: 'End - Memory Brainrot' },
+  { path: '**', component: NotFoundComponent, title: '404 Not Found - Memory Brainrot' }
 ];
