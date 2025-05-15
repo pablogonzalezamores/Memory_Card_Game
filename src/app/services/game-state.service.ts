@@ -6,11 +6,11 @@ import { Injectable } from '@angular/core';
 export class GameStateService {
   hasWon = false;
 
-  marcarVictoria() {
+  markVictory() {
     this.hasWon = true;
   }
 
-  resetearEstado() {
+  resetState() {
     this.hasWon = false;
   }
 }

@@ -3,11 +3,11 @@
     <img src="assets/logo.png" alt="Logo" class="logo" loading="eager" />
 
     <div class="lifes-container">
-      <h2>LIFES</h2>
+      <h2>LIVES</h2>
       <div class="lifes">
         <span
           *ngFor="let i of [].constructor(5); let idx = index"
-          [ngClass]="{ 'active': idx < vidas, 'lost': idx >= vidas }"
+          [ngClass]="{ 'active': idx < lives, 'lost': idx >= lives }"
         >
           ♥
         </span>
@@ -18,26 +18,25 @@
       <i
         class="fas"
         [ngClass]="{
-          'fa-volume-mute': volumen === 0,
-          'fa-volume-up': volumen > 0.5,
-          'fa-volume-down': volumen > 0 && volumen <= 0.5
+          'fa-volume-mute': volume === 0,
+          'fa-volume-up': volume > 0.5,
+          'fa-volume-down': volume > 0 && volume <= 0.5
         }"
         (click)="toggleMute()"
         style="cursor: pointer;"
       ></i>
-    
+
       <input
         type="range"
         min="0"
         max="1"
         step="0.01"
-        [value]="volumen"
+        [value]="volume"
         (input)="onVolumeInput($event)"
       />
     </div>
-       
 
-    <button class="reset-btn" (click)="reiniciarJuego()">RESET</button>
+    <button class="reset-btn" (click)="restartGame()">RESET</button>
   </div>
 
   <div class="grid-wrapper">
@@ -46,18 +45,17 @@
         class="card"
         *ngFor="let card of cards"
         [ngClass]="{ 'flipped': card.revealed || card.matched }"
-        (click)="seleccionarCarta(card)"
+        (click)="selectCard(card)"
       >
         <div class="flip-card-inner">
           <div class="flip-card-front">
-            <img src="assets/reverse-card-4x4.png" alt="reverso" loading="eager" />
+            <img src="assets/reverse-card-4x4.png" alt="card back" loading="eager" />
           </div>
-    
           <div class="flip-card-back">
-            <img [src]="card.image" alt="carta" loading="eager" />
+            <img [src]="card.image" alt="card front" loading="eager" />
           </div>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 </div>

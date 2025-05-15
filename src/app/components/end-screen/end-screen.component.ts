@@ -19,8 +19,8 @@ export class EndScreenComponent implements OnInit {
     { name: 'BRR BRR PATAPÍN', image: 'assets/brainrots/Brr_Brr_Patapim.webp', audio: 'assets/audio/Brr_Brr_Patapim.mp3' }
   ];
 
-  volumen = 0.05;
-  private volumenAnterior = 0.05;
+  volume = 0.05;
+  private previousVolume = 0.05;
   private isBrowser: boolean;
   private currentAudios: Record<string, HTMLAudioElement> = {};
   private ignasioAudio: HTMLAudioElement | null = null;
@@ -32,7 +32,7 @@ export class EndScreenComponent implements OnInit {
   ngOnInit(): void {
     if (this.isBrowser) {
       this.ignasioAudio = new Audio('assets/audio/ignasio.mp3');
-      this.ignasioAudio.volume = this.volumen;
+      this.ignasioAudio.volume = this.volume;
       this.ignasioAudio.play().catch(() => {});
     }
   }
@@ -47,7 +47,7 @@ export class EndScreenComponent implements OnInit {
       delete this.currentAudios[url];
     } else {
       const audio = new Audio(url);
-      audio.volume = this.volumen;
+      audio.volume = this.volume;
       audio.play().catch(() => {});
       this.currentAudios[url] = audio;
     }
@@ -70,27 +70,27 @@ export class EndScreenComponent implements OnInit {
   onVolumeInput(event: Event) {
     if (!this.isBrowser) return;
     const input = event.target as HTMLInputElement;
-    const nuevoVolumen = parseFloat(input.value);
+    const newVolume = parseFloat(input.value);
 
-    this.volumen = nuevoVolumen;
-    if (nuevoVolumen > 0) this.volumenAnterior = nuevoVolumen;
+    this.volume = newVolume;
+    if (newVolume > 0) this.previousVolume = newVolume;
 
-    Object.values(this.currentAudios).forEach(audio => audio.volume = nuevoVolumen);
-    if (this.ignasioAudio) this.ignasioAudio.volume = nuevoVolumen;
+    Object.values(this.currentAudios).forEach(audio => audio.volume = newVolume);
+    if (this.ignasioAudio) this.ignasioAudio.volume = newVolume;
   }
 
   toggleMute() {
     if (!this.isBrowser) return;
 
-    if (this.volumen === 0) {
-      this.volumen = this.volumenAnterior || 0.5;
+    if (this.volume === 0) {
+      this.volume = this.previousVolume || 0.5;
     } else {
-      this.volumenAnterior = this.volumen;
-      this.volumen = 0;
+      this.previousVolume = this.volume;
+      this.volume = 0;
     }
 
-    Object.values(this.currentAudios).forEach(audio => audio.volume = this.volumen);
-    if (this.ignasioAudio) this.ignasioAudio.volume = this.volumen;
+    Object.values(this.currentAudios).forEach(audio => audio.volume = this.volume);
+    if (this.ignasioAudio) this.ignasioAudio.volume = this.volume;
   }
 
   reset() {
