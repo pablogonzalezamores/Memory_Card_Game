@@ -7,9 +7,9 @@
     <i
       class="fas"
       [ngClass]="{
-        'fa-volume-mute': volumen === 0,
-        'fa-volume-up': volumen > 0.5,
-        'fa-volume-down': volumen > 0 && volumen <= 0.5
+        'fa-volume-mute': volume === 0,
+        'fa-volume-up': volume > 0.5,
+        'fa-volume-down': volume > 0 && volume <= 0.5
       }"
       (click)="toggleMute()"
       style="cursor: pointer;"
@@ -20,7 +20,7 @@
       min="0"
       max="1"
       step="0.01"
-      [value]="volumen"
+      [value]="volume"
       (input)="onVolumeInput($event)"
     />
   </div>
