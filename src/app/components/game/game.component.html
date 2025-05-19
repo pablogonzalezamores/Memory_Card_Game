@@ -6,7 +6,7 @@
       <h2>LIVES</h2>
       <div class="lifes">
         <span
-          *ngFor="let i of [].constructor(5); let idx = index"
+          *ngFor="let _ of [].constructor(5); let idx = index"
           [ngClass]="{ 'active': idx < lives, 'lost': idx >= lives }"
         >
           ♥
@@ -32,7 +32,7 @@
         max="1"
         step="0.01"
         [value]="volume"
-        (input)="onVolumeInput($event)"
+        (input)="onVolumeChange($event)"
       />
     </div>
 

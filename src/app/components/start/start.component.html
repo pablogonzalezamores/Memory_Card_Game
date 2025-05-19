@@ -1,21 +1,16 @@
 <div class="start-container">
-    <div class="left-content">
-      <img class="logo" src="assets/logo.png" alt="Memory Card Logo" />
-  
-      <!-- Botón para escritorio -->
-      
-      <button class="start-btn desktop" (click)="empezar()">START</button>
-    </div>
-  
-    <div class="cards-wrapper">
-      <img class="card back-1" src="assets/reverse-card.png" alt="Card" />
-      <img class="card back-2" src="assets/reverse-card.png" alt="Card" />
-      <img class="card back-3" src="assets/reverse-card.png" alt="Main Card" />
-    </div>
-  
-    <!-- Botón para móvil -->
-    <button class="start-btn mobile" (click)="empezar()">START</button>
+  <div class="left-content">
+    <img class="logo" src="assets/logo.png" alt="Memory Card Logo" />
+    <button class="start-btn desktop" (click)="startGame()">START</button>
+  </div>
 
+  <div class="cards-wrapper">
+    <img class="card back-1" src="assets/reverse-card.png" alt="Card back 1" />
+    <img class="card back-2" src="assets/reverse-card.png" alt="Card back 2" />
+    <img class="card back-3" src="assets/reverse-card.png" alt="Main card" />
+  </div>
 
-    <span class="copy">&copy; Pablo González Amores</span>
+  <button class="start-btn mobile" (click)="startGame()">START</button>
+
+  <span class="copy">&copy; Pablo González Amores</span>
 </div>

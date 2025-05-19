@@ -1,7 +1,7 @@
 <div class="end-container">
   <img class="logo" src="assets/logo.png" alt="Memory Card Logo" loading="eager" />
   <h1 class="title">CONGRATULATIONS!!</h1>
-  <p class="subtitle">Select to play sound</p>
+  <p class="subtitle">Click a character to play their sound</p>
 
   <div class="volume-control">
     <i
@@ -21,20 +21,24 @@
       max="1"
       step="0.01"
       [value]="volume"
-      (input)="onVolumeInput($event)"
+      (input)="onVolumeChange($event)"
     />
   </div>
 
-  <button class="stop-btn" (click)="stopAll()">
+  <button class="stop-btn" (click)="stopAllAudio()">
     <i class="fas fa-stop-circle"></i> Stop All
   </button>
 
   <div class="characters-grid">
-    <div class="character" *ngFor="let character of characters" (click)="playAudio(character.audio)">
+    <div
+      class="character"
+      *ngFor="let character of characters"
+      (click)="playAudio(character.audio)"
+    >
       <img [src]="character.image" [alt]="character.name" loading="eager" />
       <span class="name">{{ character.name }}</span>
     </div>
   </div>
 
-  <button class="reset-btn" (click)="reset()">RESET</button>
+  <button class="reset-btn" (click)="resetGame()">RESET</button>
 </div>

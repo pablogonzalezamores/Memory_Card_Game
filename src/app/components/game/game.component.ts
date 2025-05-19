@@ -21,14 +21,15 @@ interface Card {
 export class GameComponent implements OnInit {
   cards: Card[] = [];
   selectedCards: Card[] = [];
-  lives = 5;
-  volume = 0.05;
-  private previousVolume = 0.2;
+  lives: number = 5;
+  volume: number = 0.05;
+
+  private previousVolume: number = 0.2;
   private audio: HTMLAudioElement | null = null;
   private errorAudio: HTMLAudioElement | null = null;
-  private isBrowser: boolean;
+  private readonly isBrowser: boolean;
 
-  private sounds: Record<string, string> = {
+  private readonly sounds: Record<string, string> = {
     'Bombardiro_Crocodilo.webp': 'assets/audio/Bombardiro_Crocodilo.mp3',
     'Boneca_ambalabu.webp': 'assets/audio/Boneca_ambalabu.mp3',
     'Brr_Brr_Patapim.webp': 'assets/audio/Brr_Brr_Patapim.mp3',
@@ -38,10 +39,10 @@ export class GameComponent implements OnInit {
   };
 
   constructor(
-    private toastr: ToastrService,
-    private router: Router,
-    private gameState: GameStateService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private readonly toastr: ToastrService,
+    private readonly router: Router,
+    private readonly gameState: GameStateService,
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
     if (this.isBrowser) {
@@ -50,16 +51,16 @@ export class GameComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initializeGame();
   }
 
-  initializeGame() {
-    const images = Object.keys(this.sounds).map(n => 'assets/brainrots/' + n);
+  initializeGame(): void {
+    const images: string[] = Object.keys(this.sounds).map(file => `assets/brainrots/${file}`);
     this.cards = [...images, ...images]
-      .map((img, index) => ({
+      .map((image: string, index: number) => ({
         id: index,
-        image: img,
+        image,
         revealed: false,
         matched: false
       }))
@@ -71,7 +72,7 @@ export class GameComponent implements OnInit {
     this.stopAudio();
   }
 
-  selectCard(card: Card) {
+  selectCard(card: Card): void {
     if (card.revealed || card.matched || this.selectedCards.length >= 2) return;
 
     card.revealed = true;
@@ -82,14 +83,14 @@ export class GameComponent implements OnInit {
     }
   }
 
-  checkMatch() {
-    const [c1, c2] = this.selectedCards;
+  checkMatch(): void {
+    const [first, second] = this.selectedCards;
 
-    if (c1.image === c2.image) {
-      c1.matched = c2.matched = true;
-      this.playSound(c1.image);
+    if (first.image === second.image) {
+      first.matched = second.matched = true;
+      this.playSound(first.image);
     } else {
-      c1.revealed = c2.revealed = false;
+      first.revealed = second.revealed = false;
       this.lives--;
 
       if (this.isBrowser && this.errorAudio) {
@@ -97,9 +98,7 @@ export class GameComponent implements OnInit {
         this.errorAudio.currentTime = 0;
         this.errorAudio.volume = this.volume;
         this.errorAudio.play().catch(() => {});
-        setTimeout(() => {
-          this.errorAudio?.pause();
-        }, 5000);
+        setTimeout(() => this.errorAudio?.pause(), 5000);
       }
     }
 
@@ -110,32 +109,30 @@ export class GameComponent implements OnInit {
       this.initializeGame();
     }
 
-    if (this.cards.every(c => c.matched)) {
+    if (this.cards.every(card => card.matched)) {
       this.gameState.markVictory();
       this.toastr.success('🎉 You won!', '', { enableHtml: true });
       setTimeout(() => this.router.navigateByUrl('/end'), 1000);
     }
   }
 
-  playSound(imageUrl: string) {
+  playSound(imageUrl: string): void {
     if (!this.isBrowser) return;
 
     this.stopAudio();
 
-    const name = imageUrl.split('/').pop()!;
-    const path = this.sounds[name];
+    const fileName: string | undefined = imageUrl.split('/').pop();
+    const path: string | undefined = fileName ? this.sounds[fileName] : undefined;
+
     if (!path) return;
 
     this.audio = new Audio(path);
     this.audio.volume = this.volume;
     this.audio.play().catch(() => {});
-
-    setTimeout(() => {
-      this.stopAudio();
-    }, 5000);
+    setTimeout(() => this.stopAudio(), 5000);
   }
 
-  stopAudio() {
+  stopAudio(): void {
     if (this.audio) {
       this.audio.pause();
       this.audio.currentTime = 0;
@@ -143,10 +140,11 @@ export class GameComponent implements OnInit {
     }
   }
 
-  onVolumeInput(event: Event) {
+  onVolumeChange(event: Event): void {
     if (!this.isBrowser) return;
+
     const input = event.target as HTMLInputElement;
-    const newVolume = parseFloat(input.value);
+    const newVolume: number = parseFloat(input.value);
 
     this.volume = newVolume;
     if (newVolume > 0) {
@@ -157,21 +155,16 @@ export class GameComponent implements OnInit {
     if (this.errorAudio) this.errorAudio.volume = newVolume;
   }
 
-  toggleMute() {
+  toggleMute(): void {
     if (!this.isBrowser) return;
 
-    if (this.volume === 0) {
-      this.volume = this.previousVolume || 0.5;
-    } else {
-      this.previousVolume = this.volume;
-      this.volume = 0;
-    }
+    this.volume = this.volume === 0 ? this.previousVolume || 0.5 : 0;
 
     if (this.audio) this.audio.volume = this.volume;
     if (this.errorAudio) this.errorAudio.volume = this.volume;
   }
 
-  restartGame() {
+  restartGame(): void {
     this.initializeGame();
     this.toastr.info('🔁 Game restarted', '', { enableHtml: true });
   }
